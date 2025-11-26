@@ -19,7 +19,7 @@
                 <li><a href="#habitaciones" class="hover:text-indigo-500">Habitaciones</a></li>
                 <li><a href="#servicios" class="hover:text-indigo-500">Servicios</a></li>
                 <li><a href="#contacto" class="hover:text-indigo-500">Contacto</a></li>
-                <li><a href="index.php?controller=Homep&action=login" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-500">Iniciar sesión</a></li>
+                <li><a href="{{ url('/registro') }}" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-500">Iniciar sesión</a></li>
             </ul>
         </nav>
     @endif
