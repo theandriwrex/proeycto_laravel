@@ -2,6 +2,10 @@
 
 @section('title', 'Home Page')
 
+@push('styles')
+    @vite(['resources/css/home.css'])
+@endpush
+
 @section('content')
     <body>
         

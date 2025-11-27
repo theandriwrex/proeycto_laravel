@@ -2,6 +2,10 @@
 
 @section('title', 'Registro')
 
+@push('styles')
+    @vite(['resources/css/registro.css'])
+@endpush
+
 @section('content')
 
     <header class = "container text-center py-5 shadow " style = "">
@@ -9,7 +13,6 @@
             <h1>
                 REGISTRO 
             </h1>
-
 
             <div class = "login-box" >    
 
@@ -46,10 +49,6 @@
                     </div>    
                     
                 </form>
-
-
-                
-            
             </div>
         </div>
     </header>

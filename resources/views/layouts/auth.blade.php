@@ -9,13 +9,11 @@
 </head>
 <body class="bg-gray-100 te xt-gray-800">
     
-     
-    
     
     @yield('content')
     
-    
 
     @stack('scripts')
+
 </body>
 </html>
