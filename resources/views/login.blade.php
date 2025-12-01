@@ -3,7 +3,7 @@
 @section('title', 'Registro')
 
 @push('styles')
-    @vite(['resources/css/registro.css'])
+    @vite(['resources/css/auth.css'])
 @endpush
 
 @section('content')
@@ -19,12 +19,12 @@
 
             <div class = "login-box" >    
 
-                <form method = "post" id = "form" action="/prime/index.php?controller=loginp&action=autenticar" >
-
-                    <input type="text" name = "usuario" placeholder = "Usuario" >
+                <form method = "post" id = "form" action="{{ route('login.post') }}" >
+                    @csrf
+                    <input type="text" name = "email" placeholder = "Correo" >
                     <span id = "usuario_error" class ="error"></span>
                     <br> 
-                    <input type="password" name="clave" placeholder="Contraseña" >
+                    <input type="password" name="password" placeholder="Contraseña" >
                     <span id = "clave_error" class ="error"></span>
                     <br>
                     <button type = "submit">check</button>
@@ -33,7 +33,7 @@
 
                 <div class="links-modern">
                     <ul>
-                        <li><a href="index.php?controller=registrop&action=index">registrarme</a></li>
+                        <li><a href="{{route('register')}}">registrarme</a></li>
                         <li><a href="recuperar.php">Cambiar contraseña</a></li>
                     </ul>
 
@@ -44,12 +44,7 @@
         </div>
     </header>
 
-    <script src = "/prime/public/js/validacion_log.js" defer></script>
-
-
-
-
-
+    
 @endsection
 
 

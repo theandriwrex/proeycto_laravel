@@ -17,6 +17,69 @@
             </div>
         </section>
 
+
+        <section id="reserva" class="py-16 bg-gray-30">
+
+
+            @auth
+                <div class="container mx-auto text-center">
+                    <h3 class="text-3xl font-bold mb-10">Mis Reservas</h3>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
+                        <thead>
+                            <tr class="bg-indigo-100 text-indigo-700 text-sm uppercase tracking-wider">
+                            <th class="py-3 px-4 border">#reserva</th>
+                            <th class="py-3 px-4 border">Nombre</th>
+                            <th class="py-3 px-4 border">Teléfono</th>
+                            <th class="py-3 px-4 border">N° Huéspedes</th>
+                            <th class="py-3 px-4 border">Género</th>
+                            <th class="py-3 px-4 border">Mensaje</th>
+                            <th class="py-3 px-4 border">Ingreso</th>
+                            <th class="py-3 px-4 border">Salida</th>
+                            <th class="py-3 px-4 border">Servicios</th>
+                            <th class="py-3 px-4 border">Método de Pago</th>
+                            </tr>
+                        </thead>
+                        
+                        <tbody class="text-sm text-gray-700">
+                            @if (!empty($_SESSION["sin_reserva"])):
+                            <tr>
+                                <td colspan="10" class="py-4 px-4 border text-center text-gray-500">
+                                    No tienes reservas en estos momentos.
+                                </td>
+                            </tr>
+                            @else
+                            <tr class="hover:bg-gray-100">
+                                <td class="py-2 px-4 border"><?php echo $_SESSION["id_reserva"] ?></td>
+                                <td class="py-2 px-4 border"><?php echo $_SESSION["nombre_completo"] ?></td>
+                                <td class="py-2 px-4 border"><?php echo $_SESSION["telefono"] ?></td>
+                                <td class="py-2 px-4 border"><?php echo $_SESSION["n_huespedes"] ?></td>
+                                <td class="py-2 px-4 border"><?php echo $_SESSION["genero"] ?></td>
+                                <td class="py-2 px-4 border"><?php echo $_SESSION["mensaje"] ?></td>
+                                <td class="py-2 px-4 border"><?php echo $_SESSION["fecha_ingreso"] ?></td>
+                                <td class="py-2 px-4 border"><?php echo $_SESSION["fecha_salida"] ?></td>
+                                <td class="py-2 px-4 border"><?php echo $_SESSION["servicios"] ?></td>
+                                <td class="py-2 px-4 border"><?php echo $_SESSION["metodo_pago"] ?></td>
+                            </tr>
+                            @endif
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
+            @else
+                <div class="container mx-auto text-center">
+                    <h3 class="text-3xl font-bold mb-10">Mis Reservas</h3>
+                    <p class="text-gray-600">Por favor, inicia sesión o crea una cuenta para ver tus reservas.</p>
+                    <a href="{{ route('login') }}" class="bg-indigo-600 px-6 py-3 rounded-lg text-lg text-white hover:bg-indigo-500 mt-4 inline-block">Iniciar Sesión</a>
+                </div>
+
+            @endauth
+            
+            
+
+        </section>
+
         
         <section id="servicios" class="py-16 bg-gray-50">
             <div class="container mx-auto text-center">
@@ -48,8 +111,8 @@
 
                 <div class="grid md:grid-cols-3 gap-8">
 
+                    <a href="{{ route('reservas.formulario', ['tipo' => 'lujo']) }}">
                     @auth
-                        <a href="{{ route('reservas');}}">
                     @endauth
                     @guest
                         
@@ -105,5 +168,3 @@
 
     </body>
 @endsection
-
-

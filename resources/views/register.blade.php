@@ -3,7 +3,7 @@
 @section('title', 'Registro')
 
 @push('styles')
-    @vite(['resources/css/registro.css'])
+    @vite(['resources/css/auth.css'])
 @endpush
 
 @section('content')
@@ -14,20 +14,26 @@
                 REGISTRO 
             </h1>
 
-            <div class = "login-box" >    
+            <div class = "login-box" >
+                
+                @if ($errors->any())
+                    <div class="errors" style="color: red; margin-bottom: 10px;">
+                        @foreach ($errors->all() as $error)
+                            <p>{{ $error }}</p>
+                        @endforeach
+                    </div>
+                @endif
+        
+                <form method="post" id="form" action="{{ route('register.post') }}">
 
-                <form method="post" id="form" action="/prime/index.php?controller=registrop&action=guardar">
-
-                    <input type="text" id ="usuario" name="usuario" placeholder="register user" >
-                    <span id = "usuario_error" class = "error" ></span>
-                    <br>
-                    <input type="text" id ="nombre" name="nombre" placeholder="ingrese su nombre" >
+                    @csrf
+                    <input type="text" id ="name" name="name" placeholder="ingrese su nombre" >
                     <span id = "nombre_error" class = "error" ></span>
                     <br>
                     <input type="text" id="email" name="email" placeholder="ingrese su correo /UNICO/">
                     <span id = "email_error" class = "error" ></span>
                     <br>
-                    <input type="password" id="clave" name="clave" placeholder="password" >
+                    <input type="password" id="password" name="password" placeholder="password" >
                     <span id ="clave_error" class ="error"></span>
                     <ul id="requisitos">
                         <li class="requisito" id="reqLongitud">Mínimo 6 caracteres</li>
@@ -42,7 +48,7 @@
 
                         <ul>
                             <li>
-                                <p>ya tienes cuenta? <a href="index.php?controller=loginp&action=index">iniciar sesion</a></p>
+                                <p>ya tienes cuenta? <a href="{{ route('login') }}">iniciar sesion</a></p>
                             </li>
                         </ul>
 
@@ -54,3 +60,8 @@
     </header>
 
 @endsection
+
+
+@push('scripts')
+    @vite(['resources/js/validation_time_real.js'])
+@endpush
