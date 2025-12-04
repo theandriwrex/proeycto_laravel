@@ -6,39 +6,45 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class ReservaRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
-            'habitacion_id'   => ['required', 'exists:habitaciones,id'],
-            'fecha_entrada'   => ['required', 'date', 'after_or_equal:today'],
-            'fecha_salida'    => ['required', 'date', 'after:fecha_entrada'],
-        ];
+        'tipo_habitacion_id' => ['required', 'exists:tipo_habitaciones,id'],
+        'habitacion_id'      => ['required', 'exists:habitaciones,id'],
+
+        'fecha_ingreso'      => ['required', 'date', 'after_or_equal:today'],
+        'fecha_salida'       => ['required', 'date', 'after:fecha_entrada'],
+
+        'hora_llegada'       => ['nullable', 'date_format:H:i'],
+
+        'adultos'            => ['required', 'integer', 'min:1'],
+        'ninos'              => ['nullable', 'integer', 'min:0'],
+
+        'peticiones'         => ['nullable', 'string', 'max:500'],
+
+        'terminos'           => ['accepted'],
+    ];
+
     }
 
     public function messages(): array
     {
         return [
-            'habitacion_id.required' => 'Debe seleccionar una habitación.',
-            'habitacion_id.exists'   => 'La habitación seleccionada no existe.',
+            'tipo_habitacion_id.required' => 'Debe seleccionar un tipo de habitación.',
+            'habitacion_id.required'      => 'Debe seleccionar una habitación.',
 
-            'fecha_entrada.required' => 'Debe ingresar la fecha de entrada.',
-            'fecha_entrada.after_or_equal' => 'La fecha de entrada no puede ser anterior a hoy.',
+            'fecha_ingreso.required' => 'La fecha de ingreso es obligatoria.',
+            'fecha_salida.required'  => 'La fecha de salida es obligatoria.',
 
-            'fecha_salida.required' => 'Debe ingresar la fecha de salida.',
-            'fecha_salida.after'    => 'La salida debe ser después de la entrada.',
+            'fecha_entrada.after_or_equal' => 'La fecha de ingreso no puede ser anterior a hoy.',
+            'fecha_salida.after'           => 'La fecha de salida debe ser mayor a la de ingreso.',
+
+            'terminos.accepted' => 'Debe aceptar los términos y condiciones.',
         ];
     }
 }

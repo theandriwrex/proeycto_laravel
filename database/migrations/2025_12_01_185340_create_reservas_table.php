@@ -21,7 +21,7 @@ return new class extends Migration
             $table->unsignedBigInteger('habitacion_id');
 
             // Fechas de la reserva
-            $table->date('fecha_entrada');
+            $table->date('fecha_ingreso');
             $table->date('fecha_salida');
 
             // Precio final calculado

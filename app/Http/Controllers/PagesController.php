@@ -10,5 +10,8 @@ class PagesController extends Controller
     {
         return view('home');
     }
-    
+    public function reservas()
+    {
+        return view('reserva');
+    }
 }

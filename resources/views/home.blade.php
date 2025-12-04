@@ -7,7 +7,6 @@
 @endpush
 
 @section('content')
-    <body>
         
         <section class="relative h-screen flex items-center justify-center" id="image_session">
             <div class="bg-black/50 p-10 rounded-xl text-center text-white"> 
@@ -17,6 +16,63 @@
             </div>
         </section>
 
+         <section id="reserva" class="py-16 bg-gray-30">
+
+
+            @auth
+                <section id="reserva" class="py-16 bg-gray-30">
+                    <div class="container mx-auto text-center">
+                        <h3 class="text-3xl font-bold mb-10">Mis Reservas</h3>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
+                                <thead>
+                                    <tr class="bg-indigo-100 text-indigo-700 text-sm uppercase tracking-wider">
+                                    <th class="py-3 px-4 border">#reserva</th>
+                                    <th class="py-3 px-4 border">Nombre</th>
+                                    <th class="py-3 px-4 border">Teléfono</th>
+                                    <th class="py-3 px-4 border">N° Huéspedes</th>
+                                    <th class="py-3 px-4 border">Género</th>
+                                    <th class="py-3 px-4 border">Mensaje</th>
+                                    <th class="py-3 px-4 border">Ingreso</th>
+                                    <th class="py-3 px-4 border">Salida</th>
+                                    <th class="py-3 px-4 border">Servicios</th>
+                                    <th class="py-3 px-4 border">Método de Pago</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody class="text-sm text-gray-700">
+                                    @if (!$ultimaReserva)
+                                        <tr>
+                                            <td colspan="10" class="py-4 px-4 border text-center text-gray-500">
+                                                No tienes reservas en estos momentos.
+                                            </td>
+                                        </tr>
+                                    @else
+                                        <tr class="hover:bg-gray-100">
+                                            <td class="py-2 px-4 border">{{ $ultimaReserva->id }}</td>
+                                            <td class="py-2 px-4 border">{{ $ultimaReserva->nombre_completo }}</td>
+                                            <td class="py-2 px-4 border">{{ $ultimaReserva->telefono }}</td>
+                                            <td class="py-2 px-4 border">{{ $ultimaReserva->n_huespedes }}</td>
+                                            <td class="py-2 px-4 border">{{ $ultimaReserva->genero }}</td>
+                                            <td class="py-2 px-4 border">{{ $ultimaReserva->mensaje }}</td>
+                                            <td class="py-2 px-4 border">{{ $ultimaReserva->fecha_ingreso }}</td>
+                                            <td class="py-2 px-4 border">{{ $ultimaReserva->fecha_salida }}</td>
+                                            <td class="py-2 px-4 border">{{ $ultimaReserva->servicios }}</td>
+                                            <td class="py-2 px-4 border">{{ $ultimaReserva->metodo_pago }}</td>
+                                        </tr>
+                                    @endif
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+            @endauth
+            
+            
+
+        </section>
         
         <section id="servicios" class="py-16 bg-gray-50">
             <div class="container mx-auto text-center">
@@ -49,7 +105,7 @@
                 <div class="grid md:grid-cols-3 gap-8">
 
                     @auth
-                        <a href="{{ route('reservas');}}">
+                        <a href="{{ route('reservas.store', ['tipo' => 'suite']) }}">
                     @endauth
                     @guest
                         
@@ -66,7 +122,7 @@
                     </a>
 
                     @auth
-                        <a href="{{ route('reservas.formulario', ['tipo' => 'premium']) }}">
+                        <a href="{{ route('reservas.store', ['tipo' => 'premium']) }}">
                     @endauth
                     @guest
                        
@@ -83,7 +139,7 @@
                     </a>
 
                     @auth
-                        <a href="{{ route('reservas.formulario', ['tipo' => 'estandar']) }}">
+                        <a href="{{ route('reservas.store', ['tipo' => 'estandar']) }}">
                     @endauth
                     @guest
                         
@@ -102,8 +158,6 @@
                 </div>
             </div>
         </section>
-
-    </body>
 @endsection
 
 

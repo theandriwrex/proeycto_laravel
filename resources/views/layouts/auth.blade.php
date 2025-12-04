@@ -7,7 +7,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
 </head>
-<body class="bg-gray-100 te xt-gray-800">
+<body class="bg-gray-100 text-gray-800">
     
     
     @yield('content')
