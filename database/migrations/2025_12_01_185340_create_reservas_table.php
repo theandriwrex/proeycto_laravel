@@ -24,8 +24,17 @@ return new class extends Migration
             $table->date('fecha_ingreso');
             $table->date('fecha_salida');
 
+
+            $table->integer('adultos')->default(1);
+            $table->integer('ninos')->default(0);
+            $table->string('peticiones', 500)->nullable();
+            
+            $table->json('servicios')->nullable();
+
             // Precio final calculado
             $table->decimal('precio_total', 10, 2);
+
+
 
             // Estado de la reserva
             $table->enum('estado', [

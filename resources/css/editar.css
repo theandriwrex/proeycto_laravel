@@ -1,0 +1,133 @@
+
+/* Fondo general */
+.reserva-bg {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('https://www.shutterstock.com/image-photo/luxury-hotel-room-tokyo-japan-600nw-2245471451.jpg');
+    background-size: cover;
+    background-position: center;
+    padding: 20px;
+}
+
+/* Card del formulario */
+.reserva-card {
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 2rem;
+    max-width: 800px;
+    width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    color: #fff;
+}
+
+/* Títulos */
+.title {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    text-align: center;
+    color: #a0e0ff;
+    margin-bottom: 1.5rem;
+}
+
+/* Campos del formulario */
+.field, .field-full {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.field label, .field-full label {
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+}
+
+.field input, .field-full input, .field textarea, .field-full textarea, .field select {
+    padding: 0.5rem 0.7rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    outline: none;
+    font-size: 1rem;
+}
+
+/* Hover y focus */
+.field input:focus, .field-full input:focus,
+.field textarea:focus, .field-full textarea:focus,
+.field select:focus {
+    border-color: #66d9ff;
+    box-shadow: 0 0 5px rgba(102, 217, 255, 0.5);
+}
+
+/* Servicios checkbox */
+.services-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.services-box label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: rgba(255,255,255,0.1);
+    padding: 0.5rem 0.7rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.services-box input[type="checkbox"] {
+    accent-color: #66d9ff;
+}
+
+.services-box label:hover {
+    background-color: rgba(255,255,255,0.2);
+}
+
+/* Botón */
+.btn-reservar {
+    display: block;
+    width: 100%;
+    padding: 0.7rem;
+    background-color: #66d9ff;
+    color: #000;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-reservar:hover {
+    background-color: #00bfff;
+    transform: translateY(-2px);
+}
+
+/* Mensaje de errores */
+.error-message {
+    background-color: rgba(255,0,0,0.7);
+    color: #fff;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .reserva-card {
+        padding: 1.5rem;
+    }
+    .title {
+        font-size: 1.5rem;
+    }
+}
+

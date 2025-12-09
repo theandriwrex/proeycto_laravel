@@ -13,8 +13,18 @@ class Reserva extends Model
         'habitacion_id',
         'fecha_ingreso',
         'fecha_salida',
+        'adultos',
+        'ninos',
+        'peticiones',
+        'servicios',
         'precio_total',
         'estado',
+    ];
+
+    protected $casts = [
+        'servicios' => 'array', 
+        'fecha_ingreso' => 'date',
+        'fecha_salida' => 'date',
     ];
 
     // RELACIONES

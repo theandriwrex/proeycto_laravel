@@ -4,9 +4,23 @@ document.addEventListener("DOMContentLoaded", () => {
     const habitacionSelect = document.getElementById("habitacion");
     const form = document.getElementById("formReserva");
 
-    // -------------------------------
-    // 1. CARGAR HABITACIONES POR TIPO
-    // -------------------------------
+    const fechaIngreso = document.getElementById("fecha_ingreso");
+    const fechaSalida = document.getElementById("fecha_salida");
+    const precioTotalDiv = document.getElementById("precio-total");
+
+
+    const serviciosCheckboxes = document.querySelectorAll("input[name='servicios[]']");
+
+  
+    const tarifasServicios = {
+        desayuno: 20000,
+        spa: 45000,
+        parqueadero: 10000,
+        mascotas: 35000,
+        transporte: 50000
+    };
+
+  
     tipoSelect.addEventListener("change", async () => {
         const tipoId = tipoSelect.value;
 
@@ -23,14 +37,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
             habitacionSelect.innerHTML = "";
 
-           const habitaciones = data.data; // extraer el array real
+            const habitaciones = data.data;
 
             if (!habitaciones || habitaciones.length === 0) {
                 habitacionSelect.innerHTML = `<option value="">No hay habitaciones disponibles</option>`;
                 return;
             }
 
-            // ⚠️ AQUÍ TAMBIÉN CAMBIA
             habitaciones.forEach(habitacion => {
                 habitacionSelect.innerHTML += `
                     <option value="${habitacion.id}">
@@ -38,28 +51,74 @@ document.addEventListener("DOMContentLoaded", () => {
                     </option>`;
             });
 
+            calcularPrecio();
+
         } catch (error) {
             console.error("Error al cargar habitaciones:", error);
             habitacionSelect.innerHTML = `<option value="">Error al cargar</option>`;
+            alert("Error al cargar habitaciones: " + error.message);
         }
+
     });
 
-
-    // ----------------------------------------------------------
-    // 2. SI LA VISTA VIENE CON UN TIPO SELECCIONADO → AUTO-CARGA
-    // ----------------------------------------------------------
+  
     if (tipoSelect.value !== "") {
-        const event = new Event("change");
-        tipoSelect.dispatchEvent(event);
+        tipoSelect.dispatchEvent(new Event("change"));
     }
 
+    function calcularPrecio() {
 
-    // --------------------------------
-    // 3. VALIDACIÓN ANTES DEL ENVÍO
-    // --------------------------------
+        const opcionTipo = tipoSelect.options[tipoSelect.selectedIndex];
+
+        if (!opcionTipo) {
+            precioTotalDiv.textContent = "COP $0";
+            return;
+        }
+
+        const precioPorNoche = opcionTipo.getAttribute("data-precio");
+
+        if (!precioPorNoche) {
+            precioTotalDiv.textContent = "COP $0";
+            return;
+        }
+
+        const ingreso = new Date(fechaIngreso.value);
+        const salida = new Date(fechaSalida.value);
+
+        let total = 0;
+
+    
+        if (fechaIngreso.value && fechaSalida.value && salida > ingreso) {
+            const diferenciaDias = Math.ceil((salida - ingreso) / (1000 * 60 * 60 * 24));
+            total += diferenciaDias * precioPorNoche;
+        }
+
+       
+        serviciosCheckboxes.forEach(chk => {
+            if (chk.checked) {
+                total += tarifasServicios[chk.value] || 0;
+            }
+        });
+
+        
+        precioTotalDiv.textContent = `COP $${Number(total).toLocaleString("es-CO")}`;
+    }
+
+  
+    tipoSelect.addEventListener("change", calcularPrecio);
+    fechaIngreso.addEventListener("change", calcularPrecio);
+    fechaSalida.addEventListener("change", calcularPrecio);
+
+  
+    serviciosCheckboxes.forEach(chk =>
+        chk.addEventListener("change", calcularPrecio)
+    );
+
+ 
+
+
     form.addEventListener("submit", (e) => {
 
-        // Validación rápida por si el usuario no espera al servidor
         if (!tipoSelect.value) {
             e.preventDefault();
             showError("Debe seleccionar un tipo de habitación.");
@@ -72,8 +131,8 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const entrada = document.getElementById("fecha_ingreso").value;
-        const salida = document.getElementById("fecha_salida").value;
+        const entrada = fechaIngreso.value;
+        const salida = fechaSalida.value;
 
         if (entrada && salida && entrada >= salida) {
             e.preventDefault();
@@ -82,10 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-
-    // ---------------------------------------
-    // 4. FUNCIÓN: MOSTRAR MENSAJE DE ERROR
-    // ---------------------------------------
+ 
     function showError(message) {
         let errorDiv = document.querySelector(".error-message");
 
@@ -96,8 +152,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         errorDiv.innerHTML = message;
-
-        // Animación suave
         errorDiv.style.opacity = "0";
         setTimeout(() => (errorDiv.style.opacity = "1"), 50);
     }

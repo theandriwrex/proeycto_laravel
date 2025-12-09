@@ -9,13 +9,13 @@ class HomeController extends Controller
 {
     public function index()
     {
-        // Variable por defecto
+        
         $ultimaReserva = null;
 
-        // Si el usuario está autenticado, obtenemos su última reserva
+       
         if (Auth::check()) {
             $ultimaReserva = Auth::user()
-                ->reservas()        // Relación desde el modelo User
+                ->reservas()        
                 ->latest()
                 ->first();
         }

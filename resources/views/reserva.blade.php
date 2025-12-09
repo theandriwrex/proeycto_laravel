@@ -21,7 +21,7 @@
             Bienvenido <span class="fw-bold">{{ Auth::user()->name }}</span>
         </p>
 
-        {{-- Mensajes de error globales --}}
+        {{-- Errores --}}
         @if ($errors->any())
             <div class="error-message">
                 <ul style="margin: 0; padding-left: 15px;">
@@ -37,11 +37,11 @@
 
             <div class="form-grid">
 
-                {{-- Fecha entrada --}}
+                {{-- Fecha ingreso --}}
                 <div class="field">
                     <label>Fecha de Ingreso</label>
                     <input type="date" name="fecha_ingreso" id="fecha_ingreso"
-                        value="{{ old('fecha_entrada') }}" required>
+                        value="{{ old('fecha_ingreso') }}" required>
                 </div>
 
                 {{-- Fecha salida --}}
@@ -51,10 +51,11 @@
                         value="{{ old('fecha_salida') }}" required>
                 </div>
 
-                {{-- Hora llegada (solo visual) --}}
+                {{-- Hora llegada --}}
                 <div class="field-full">
                     <label>Hora Estimada de Llegada</label>
-                    <input type="time" name="hora_llegada" value="{{ old('hora_llegada') }}">
+                    <input type="time" name="hora_llegada"
+                        value="{{ old('hora_llegada') }}">
                 </div>
 
                 {{-- Adultos --}}
@@ -79,15 +80,18 @@
 
                         @foreach ($tipos as $tipo)
                             <option value="{{ $tipo->id }}"
-                                {{-- Preselección si viene ?tipo=xxxx incluido --}}
-                                @if(isset($tipoSeleccionado) && $tipoSeleccionado == $tipo->id) selected @endif>
+                                data-precio="{{ $tipo->precio_noche }}"
+                                @if(isset($tipoSeleccionado) && $tipoSeleccionado->id == $tipo->id)
+                                    selected
+                                @endif
+                            >
                                 {{ $tipo->nombre }} ({{ $tipo->capacidad }} personas)
                             </option>
                         @endforeach
                     </select>
                 </div>
 
-                {{-- Habitación --}}
+                {{-- Habitaciones disponibles --}}
                 <div class="field">
                     <label>Habitación disponible</label>
                     <select id="habitacion" name="habitacion_id" required>
@@ -95,11 +99,49 @@
                     </select>
                 </div>
 
-                {{-- Peticiones --}}
+                {{-- Servicios adicionales --}}
+                <div class="field-full">
+                    <label class="font-semibold">Servicios adicionales</label>
+
+                    <div class="services-box">
+
+                        @php
+                            $serviciosDisponibles = [
+                                'desayuno' => 'Desayuno buffet',
+                                'spa' => 'Acceso al Spa',
+                                'parqueadero' => 'Parqueadero',
+                                'mascotas' => 'Alojamiento para mascotas',
+                                'transporte' => 'Transporte aeropuerto',
+                            ];
+                        @endphp
+
+                        @foreach ($serviciosDisponibles as $key => $label)
+                            <label class="flex items-center space-x-2 my-1">
+                                <input type="checkbox"
+                                       name="servicios[]"
+                                       value="{{ $key }}"
+                                       @if( is_array(old('servicios')) && in_array($key, old('servicios')) )
+                                           checked
+                                       @endif
+                                       class="h-4 w-4">
+                                <span>{{ $label }}</span>
+                            </label>
+                        @endforeach
+
+                    </div>
+                </div>
+
+                {{-- Peticiones especiales --}}
                 <div class="field-full">
                     <label>Peticiones especiales</label>
                     <textarea name="peticiones" rows="2"
                         placeholder="Por ejemplo: cuna, piso alto, accesibilidad…">{{ old('peticiones') }}</textarea>
+                </div>
+
+                {{-- Precio total --}}
+                <div class="field-full">
+                    <label class="font-semibold text-gray-700">Precio total:</label>
+                    <p id="precio-total" class="text-xl font-bold text-blue-600">COP $0</p>
                 </div>
 
                 {{-- Términos --}}
